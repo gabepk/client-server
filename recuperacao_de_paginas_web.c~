@@ -29,7 +29,7 @@ void connectToSocket ()
   server_addr.sin_family = AF_INET;
   server_addr.sin_port = htons(3490);
   //server_addr.sin_addr.s_addr = inet_addr(HOST);
-  inet_aton(HOST, (struct in_addr *)&server_addr.sin_addr.s_addr);
+  inet_aton(HOST, &server_addr.sin_addr.s_addr);
   memset(&(server_addr.sin_zero), '\0', 8);
   
   is_connected = connect(sockfd, (struct sockaddr *)&server_addr, sizeof(struct sockaddr));
