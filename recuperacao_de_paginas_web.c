@@ -10,6 +10,7 @@
 #include <unistd.h>
 
 #define PORT 80
+#define buff_size 50
 
 FILE *fp;
 char msg[1024];
@@ -52,26 +53,40 @@ void connect_to_socket ()
 
   int bytes_sent, bytes_recv;
   int offset = 0;
-  int i, j=0, total;
-  char content_length[4];
-  char buffer[200];
+  int i, j=0;
+  //int buff_size = 20;
+  char buffer[4096];
  
+  int total = 40;
+
   bytes_sent = send(sockfd, msg, strlen(msg), 0);
   printf("Bytes sent: %d\n", bytes_sent);
   printf("Message sent: \n%s", msg);
   
   printf(".\nMessage received: \n");
-  memset(buffer, 0, sizeof(buffer));
+  memset(buffer, 0, buff_size);
  
-  bytes_recv = recv(sockfd, buffer, sizeof(buffer), 0);
-  printf("%s <\n\n\n", buffer); 
+  bytes_recv = recv(sockfd, buffer, buff_size, 0); // 40;
+  printf("%s < 1\n\n", buffer); 
 
-  bytes_recv = recv(sockfd, buffer+100, sizeof(buffer), 0);
-  printf("%s <", buffer+100); 
+  offset = buff_size;
+  bytes_recv = recv(sockfd, buffer + offset, buff_size, 0); // 30
+  printf("%s < 2 \n\n", buffer + offset); 
 
-  do {
-    bytes_recv = recv(sockfd, buffer, sizeof(buffer), 0);
-    printf("$s <", buffer);
+  offset = offset + buff_size;
+  bytes_recv = recv(sockfd, buffer + offset, buff_size, 0); // 20
+  printf("%s < 3 \n\n", buffer + offset); 
+
+  offset = offset + buff_size;
+  bytes_recv = recv(sockfd, buffer + offset, buff_size, 0); // 10
+  printf("%s < 4 \n\n", buffer + offset);
+
+  offset = offset + buff_size; 
+  bytes_recv = recv(sockfd, buffer + offset, buff_size, 0); // 0
+  printf("%s < 5 \n\n", buffer + offset); 
+  /*do {
+    bytes_recv = recv(sockfd, buffer + offset, buff_size, 0);
+    printf("$s <\n", buffer + offset);
     if (bytes_recv < 0) {
       printf("Erro ao ler mensagem do socket.\n");
     }
@@ -80,10 +95,13 @@ void connect_to_socket ()
       break;
     }
     
-    offset += bytes_recv;
-    fprintf(fp, "> %s\n\n", buffer);
-  } while (bytes_recv < strlen(buffer));
+    printf("DEBUGA AQUI");
 
+
+    offset = offset + buff_size;
+    fprintf(fp, "> %s\n\n", buffer + offset);
+  } while (bytes_recv >= buff_size);
+*/
   close(sockfd);
   return;
 }
