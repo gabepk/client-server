@@ -21,6 +21,31 @@ char msg[MAX_STRING_SIZE];
 char host[MAX_STRING_SIZE];
 char buffer[BUFFER_SIZE];
 
+void get_host_from_path (char *path) {
+  int i = 0, path_size = strlen(path);
+  
+  /* Se path nao tem ''/'' no final, adiciona */
+  if (path[path_size - 1] != '/') {
+    path[path_size] = '/';
+    path[path_size + 1] = '\0';
+  }
+
+  
+  if (strstr(path, "http://") || strstr(path, "https://")) {
+    strtok(path, "/");
+    strcpy(host, strtok(NULL, "/"));   
+  } 
+  else {
+    while (path[i] != '/'){
+      host[i] = path[i];
+      i++;
+    }
+  }
+ 
+
+  return;
+}
+
 void connect_to_socket ()
 {
   struct sockaddr_in server_addr;
@@ -100,15 +125,14 @@ void recv_message(int sockfd) {
     end_of_header = strstr(header, "\r\n\r\n");
 
     if (end_of_header) {
-      int pos = end_of_header - header;
+      int pos = end_of_header - header + 4;
 
-      for (i = pos+4; i < BUFFER_SIZE; i++)
+      for (i = pos; i < BUFFER_SIZE; i++)
         fprintf(fp, "%c", header[i]);
     
       still_header = 0; 
     }
-    //printf("header[%d] : %s\n", i, header);
-
+    
   } while (still_header == 1);
 
   /* Content */
@@ -136,7 +160,6 @@ int main (int argc, char *argv[]) {
   }
   
   fp = fopen(argv[2], "r+");
-  /* Arquivo ja existe */
   if (fp) {
     /* Se flag de sobrescrita nao foi informada, exit. */
     if (!argv[3] || (argv[3] && strncmp(argv[3], "-s", 2) != 0)) {
@@ -154,9 +177,10 @@ int main (int argc, char *argv[]) {
     }
   }
  
-  strncat(host, argv[1], strlen(argv[1]));
-  snprintf(msg, 19+strlen(host), "GET %s/ HTTP/1.0\r\n\r\n", host);
+  //strncat(host, argv[1], strlen(argv[1]));
+  snprintf(msg, 19+strlen(argv[1]), "GET %s/ HTTP/1.0\r\n\r\n", argv[1]);
 
+  get_host_from_path(argv[1]);
   connect_to_socket();
   send_message(sockfd); 
   recv_message(sockfd);
