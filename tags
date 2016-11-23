@@ -1,0 +1,18 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+BUFFER_SIZE	recuperacao_de_paginas_web.c	13;"	d	file:
+MAX_STRING_SIZE	recuperacao_de_paginas_web.c	14;"	d	file:
+PORT	recuperacao_de_paginas_web.c	12;"	d	file:
+buffer	recuperacao_de_paginas_web.c	/^char buffer[BUFFER_SIZE];$/;"	v
+connect_to_socket	recuperacao_de_paginas_web.c	/^void connect_to_socket ()$/;"	f
+fp	recuperacao_de_paginas_web.c	/^FILE *fp;$/;"	v
+host	recuperacao_de_paginas_web.c	/^char host[MAX_STRING_SIZE];$/;"	v
+main	recuperacao_de_paginas_web.c	/^int main (int argc, char *argv[]) {$/;"	f
+msg	recuperacao_de_paginas_web.c	/^char msg[MAX_STRING_SIZE];$/;"	v
+recv_message	recuperacao_de_paginas_web.c	/^void recv_message(int sockfd) {$/;"	f
+send_message	recuperacao_de_paginas_web.c	/^void send_message(int sockfd) {$/;"	f
+sockfd	recuperacao_de_paginas_web.c	/^int sockfd;$/;"	v
