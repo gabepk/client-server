@@ -19,29 +19,32 @@ FILE *fp;
 int sockfd;
 char msg[MAX_STRING_SIZE];
 char host[MAX_STRING_SIZE];
+char path[MAX_STRING_SIZE];
 char buffer[BUFFER_SIZE];
 
-void get_host_from_path (char *path) {
-  int i = 0, path_size = strlen(path);
+void build_host_and_path (char *input_path) {
+  int i = 0, path_size = strlen(input_path);
   
   /* Se path nao tem ''/'' no final, adiciona */
-  if (path[path_size - 1] != '/') {
-    path[path_size] = '/';
-    path[path_size + 1] = '\0';
+  if (input_path[path_size - 1] != '/') {
+    input_path[path_size] = '/';
+    input_path[path_size + 1] = '\0';
+    path_size++;
   }
-
+  strncpy(path, input_path, path_size);
   
   if (strstr(path, "http://") || strstr(path, "https://")) {
-    strtok(path, "/");
+    strtok(input_path, "/");
     strcpy(host, strtok(NULL, "/"));   
   } 
   else {
-    while (path[i] != '/'){
-      host[i] = path[i];
+    do {
+      host[i] = input_path[i];
       i++;
-    }
+    } while (input_path[i] != '/');
   }
  
+  printf("\n> Host: ''%s''\n> Path: ''%s''\n\n", host, path);  
 
   return;
 }
@@ -51,27 +54,34 @@ void connect_to_socket ()
   struct sockaddr_in server_addr;
   struct hostent *server;
   
+  printf("> Creating Socket . . .\n");
   sockfd = socket(AF_INET, SOCK_STREAM, 0);
   if ( sockfd < 0)
   {
     perror("\nError trying to get socket");
     exit(1);
   }
+  printf("> Socket created with success!\n");
 
+  printf("> Searching host by name . . .\n");
   server = gethostbyname(host);
   if (!server) {
     herror("\nError trying to get server from host");
     exit(1);
   }
+  printf("> Host found!\n");
 
   memset(&server_addr, 0, sizeof(server_addr));
   server_addr.sin_family = AF_INET;
   server_addr.sin_port = htons(PORT);
   memcpy(&server_addr.sin_addr.s_addr, server->h_addr, server->h_length);
+  
+  printf("> Connecting to server . . .\n");
   if (connect(sockfd, (struct sockaddr *)&server_addr, sizeof(server_addr)) 
       < 0) {
     perror("\nError trying to connect to server");
   }
+  printf("> Server connected with success!\n");
   
   return;
 }
@@ -177,10 +187,9 @@ int main (int argc, char *argv[]) {
     }
   }
  
-  //strncat(host, argv[1], strlen(argv[1]));
-  snprintf(msg, 19+strlen(argv[1]), "GET %s/ HTTP/1.0\r\n\r\n", argv[1]);
+  build_host_and_path(argv[1]);
+  snprintf(msg, 18+strlen(path), "GET %s HTTP/1.0\r\n\r\n", path);
 
-  get_host_from_path(argv[1]);
   connect_to_socket();
   send_message(sockfd); 
   recv_message(sockfd);
