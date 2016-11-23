@@ -18,13 +18,12 @@ char host[1024];
 
 void connect_to_socket ()
 {
-  int sockfd, is_connected;
+  /* Conexao com servidor */
+  
+  int sockfd;
   struct sockaddr_in server_addr;
   struct hostent *server;
-
-
-  /* Conexao com servidor */
-
+  
   sockfd = socket(AF_INET, SOCK_STREAM, 0);
   if ( sockfd < 0)
   {
@@ -52,41 +51,16 @@ void connect_to_socket ()
   /* Envio e recebimento de mensagens */
 
   int bytes_sent, bytes_recv;
-  int offset = 0;
-  int i, j=0;
-  //int buff_size = 20;
-  char buffer[4096];
- 
-  int total = 40;
+  char buffer[buff_size];
 
   bytes_sent = send(sockfd, msg, strlen(msg), 0);
   printf("Bytes sent: %d\n", bytes_sent);
   printf("Message sent: \n%s", msg);
   
   printf(".\nMessage received: \n");
-  memset(buffer, 0, buff_size);
- 
-  bytes_recv = recv(sockfd, buffer, buff_size, 0); // 40;
-  printf("%s < 1\n\n", buffer); 
-
-  offset = buff_size;
-  bytes_recv = recv(sockfd, buffer + offset, buff_size, 0); // 30
-  printf("%s < 2 \n\n", buffer + offset); 
-
-  offset = offset + buff_size;
-  bytes_recv = recv(sockfd, buffer + offset, buff_size, 0); // 20
-  printf("%s < 3 \n\n", buffer + offset); 
-
-  offset = offset + buff_size;
-  bytes_recv = recv(sockfd, buffer + offset, buff_size, 0); // 10
-  printf("%s < 4 \n\n", buffer + offset);
-
-  offset = offset + buff_size; 
-  bytes_recv = recv(sockfd, buffer + offset, buff_size, 0); // 0
-  printf("%s < 5 \n\n", buffer + offset); 
-  /*do {
-    bytes_recv = recv(sockfd, buffer + offset, buff_size, 0);
-    printf("$s <\n", buffer + offset);
+  do {
+    memset(buffer, 0, buff_size);
+    bytes_recv = recv(sockfd, buffer, buff_size, 0);
     if (bytes_recv < 0) {
       printf("Erro ao ler mensagem do socket.\n");
     }
@@ -94,26 +68,12 @@ void connect_to_socket ()
       printf("\n\nFim da mensagem recebida.\n");
       break;
     }
-    
-    printf("DEBUGA AQUI");
+    fprintf(fp, "%s", buffer);
+  } while (bytes_recv > 0);
 
-
-    offset = offset + buff_size;
-    fprintf(fp, "> %s\n\n", buffer + offset);
-  } while (bytes_recv >= buff_size);
-*/
   close(sockfd);
   return;
 }
-
-void set_msg (char *path) {
-  char length[4];
-
-  snprintf(msg, 18+strlen(path), "GET %s HTTP/1.0\r\n\r\n", path);
-  //snprintf(msg, 40, "GET %s HTTP/1.0\r\n\r\n", path);
-  return;
-}
-
 
 int main (int argc, char *argv[]) {
   
@@ -137,12 +97,12 @@ int main (int argc, char *argv[]) {
     fp = fopen(argv[2], "a+");
   }
   
-  //set_msg(argv[1]);
   strncat(host, "server.aker.com.br", 20);
-  set_msg("http://server.aker.com.br/intranet_aker/");
+  snprintf(msg, 58, "GET http://server.aker.com.br/intranet_aker/ HTTP/1.0\r\n\r\n");
+  //snprintf(msg, 18+strlen(path), "GET %s HTTP/1.0\r\n\r\n", path);
+
   connect_to_socket();
   
-
   fclose(fp);
   return 0;
 }

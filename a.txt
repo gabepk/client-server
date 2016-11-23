@@ -1,4 +1,712 @@
-> 
+HTTP/1.1 200 OK
+Date: Wed, 23 Nov 2016 12:02:57 GMT
+Server: Apache/2.2.20 (Ubuntu)
+X-Powered-By: PHP/5.3.6-13ubuntu3.10
+Vary: Accept-Encoding
+Connection: close
+Content-Type: text/html;charset=utf-8
 
-¼*
 
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+
+<title>:: Intranet Aker ::</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+
+</head>
+
+<body>
+<table width="700" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="346"><img src="images/Logo_AKER_copy.jpg" width="96" height="50"></td>
+    <td colspan="2"><div align="right"><a href="http://server.aker.com.br/intranet_aker/" target="_self"><span class="style1">Bem-vindo &agrave; Intranet Aker </span></a></div></td>
+  </tr>
+  <tr>
+    <td colspan="3"><img src="images/spacer_gray.gif" width="700" height="1"></td>
+  </tr>
+  <tr>
+    <td colspan="3"><img src="images/spacer.gif" width="700" height="10"></td>
+  </tr>
+  <tr>
+    <td colspan="3"><div align="center">
+      <table width="514"  border="0" align="center" cellpadding="0" cellspacing="0">
+        <tr>
+          <td><a href="http://www.aker.com.br/" target="_blank"><img src="images/icos_web.jpg" width="44" height="44" border="0" title="WebSite"></a></td>
+          <td><img src="images/spacer.gif" width="10" height="10"></td>
+          <td><a href="http://server.aker.com.br/dokuwiki/doku.php?id=public:administrativo" target="_blank"><img src="images/icos_adm.jpg" width="44" height="35" border="0" title="Adm"></a></td>
+          <td><img src="images/spacer.gif" width="10" height="10"></td>
+          <td><a href="http://server.aker.com.br/comercial/" target="_blank"><img src="images/icos_mkt.jpg" width="44" height="46" border="0" title="Com_Mkt"></a><img src="images/spacer.gif" width="10" height="10"></td>
+          <td><a href="http://server.aker.com.br/suporte/" target="_blank"><img src="images/icos_sup.jpg" width="44" height="44" border="0" title="Suporte"></a></td>
+          <td><img src="images/spacer.gif" width="10" height="10"></td>
+          <td><a href="http://server.aker.com.br/desenvolvimento/" target="_blank"><img src="images/icos_desen.jpg" width="44" height="55" border="0" title="Desen"></a></td>
+          <td><img src="images/spacer.gif" width="10" height="10"></td>
+          <td><a href="http://server.aker.com.br/db/" target="_blank"><img src="images/icos_base.jpg" width="44" height="53" border="0" title="Base"></a></td>
+          <td><img src="images/spacer.gif" width="10" height="10"></td>
+          <td><a href="https://asmg.aker.com.br/akmailgw/usergui/index.php" target="_blank"><img src="images/icos_mail.jpg" width="44" height="44" border="0" title="ASMG"></a></td>
+          <td><img src="images/spacer.gif" width="10" height="10"></td>
+          <td><a href="http://server.aker.com.br/cgi-bin/majordomo" target="_blank"><img src="images/icos_list.jpg" width="44" height="40" border="0" title="MailList"></a></td>
+          <td><img src="images/spacer.gif" width="10" height="10"></td>
+          <td><a href="http://server.aker.com.br/homologacao/dokuwiki/doku.php" target="_blank"><img src="images/icos_cont.jpg" width="44" height="55" border="0" title="Project"></a></td>
+          <td><img src="images/spacer.gif" width="10" height="10"></td>
+          <td><a href="http://server.aker.com.br/intranet_aker/relatorios/" target="_blank"><img src="images/relatorio.jpg" width="44" height="55" border="0" title="Project"></a></td>
+        </tr>
+      </table>
+    </div></td>
+  </tr>
+  <tr>
+    <td colspan="3"><img src="images/spacer.gif" width="700" height="10"></td>
+  </tr>
+  <tr>
+    <td colspan="3"><table width="340" border="0" align="left" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="10"><img src="images/spacer_gray.gif" width="1" height="1"></td>
+        <td width="319" background="images/spacer_gray.gif"><img src="images/spacer.gif" width="698" height="1"></td>
+        <td width="11"><img src="images/spacer_gray.gif" width="1" height="1"></td>
+      </tr>
+      <tr>
+        <td background="images/spacer_gray.gif"><img src="images/spacer.gif" width="1" height="1"></td>
+        <td>
+        <table width="90%"  border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td colspan="2"><img src="images/spacer.gif" width="5" height="5"></td>
+            </tr>
+          <tr>
+            <td width="1%"><img src="images/spacer.gif" width="10" height="10"></td>
+            <td width="99%"><span class="style2 style7">Not&iacute;cias</span></td>
+          </tr>
+          <tr>
+            <td colspan="2"><img src="images/spacer.gif" width="5" height="5"></td>
+          </tr>
+        </table>     
+<!--
+        <table width="340" border="0" align="center" cellpadding="0" cellspacing="0">
+          <tr>
+            <td><a class="tabactive" href="index.php?id=1">Comercial</a></td>
+            <td><a class="tabactive" href="index.php?id=2">Administrativo</a></td>
+            <td><a class="tabactive" href="index.php?id=3">Suporte</a></td>
+            <td><a class="tabactive" href="index.php?id=4">Desenvolvimento</a></td>
+          </tr>
+        </table>     
+-->          
+		<table width="95%" border="0" align="center" cellpadding="0" cellspacing="0">
+              <tr>
+                <td width="4"><img src="images/spacer_gray.gif" width="1" height="1"></td>
+                <td colspan="3" background="images/spacer_gray.gif"><img src="images/spacer.gif" width="600" height="1"></td>
+                <td width="4"><img src="images/spacer_gray.gif" width="1" height="1"></td>
+              </tr>
+              <tr>
+                <td background="images/spacer_gray.gif"><img src="images/spacer.gif" width="1" height="1"></td>
+                <td width="100%" align="center" valign="middle">
+                <table width="100%"%"  border="0" cellspacing="0" cellpadding="0">
+                
+                <tr>
+	                <td class="style21">
+	                	Comercial
+	                </td>
+                
+                <tr>
+	                <td class="style3">
+	                	&nbsp;&nbsp;&nbsp;<a href="http://server.aker.com.br/comercial/dokuwiki/doku.php?id=public:news:procedimentos_para_eventos_compartilhados
+" target="_blank">Procedimentos para Eventos Compartilhados
+</a>
+	                </td>
+                </tr>
+                
+                <tr>
+	                <td class="style3">
+	                	&nbsp;&nbsp;&nbsp;<a href="http://server.aker.com.br/comercial/dokuwiki/doku.php?id=public:news:diretor_da_aker_é_premiado_em_são_paulo
+" target="_blank">Diretor da Aker Ã© premiado em SÃ£o Paulo
+</a>
+	                </td>
+                </tr>
+                
+                <tr>
+	                <td class="style3">
+	                	&nbsp;&nbsp;&nbsp;<a href="http://server.aker.com.br/comercial/dokuwiki/doku.php?id=public:news:aker:7ª_em_segurança_e_44ª_em_software
+" target="_blank">Aker:7Âª em SeguranÃ§a e 44Âª em Software
+</a>
+	                </td>
+                </tr>
+                
+				</tr>
+				<tr>
+	                <td class="style21">
+	                	Administrativo
+	                </td>
+                
+                <tr>
+	                <td class="style3">
+	                	&nbsp;&nbsp;&nbsp;<a href="http://server.aker.com.br/dokuwiki/doku.php?id=public:news:" target="_blank"></a>
+	                </td>
+                </tr>
+                
+                <tr>
+	                <td class="style3">
+	                	&nbsp;&nbsp;&nbsp;<a href="http://server.aker.com.br/dokuwiki/doku.php?id=public:news:aniversariantes_do_mês_de_janeiro
+" target="_blank">Aniversariantes do mÃªs de Janeiro
+</a>
+	                </td>
+                </tr>
+                
+                <tr>
+	                <td class="style3">
+	                	&nbsp;&nbsp;&nbsp;<a href="http://server.aker.com.br/dokuwiki/doku.php?id=public:news:aniversariantes_do_mês_de_fevereiro
+" target="_blank">Aniversariantes do mÃªs de Fevereiro
+</a>
+	                </td>
+                </tr>
+                
+				</tr>
+				
+				<tr>
+	                <td class="style21">
+	                	Suporte
+	                </td>
+                
+                <tr>
+	                <td class="style3">
+	                	&nbsp;&nbsp;&nbsp;<a href="http://server.aker.com.br/suporte/dokuwiki/doku.php?id=private:ferramentas" target="_blank">Ferramenta Atualizada ( Cliente de AutenticaÃ§Ã£o p/ logon script do AD com removedor via linha de comando). //06/02/2006//
+</a>
+	                </td>
+                </tr>
+                
+                <tr>
+	                <td class="style3">
+	                	&nbsp;&nbsp;&nbsp;<a href="http://server.aker.com.br/suporte/dokuwiki/doku.php?id=private:ferramentas" target="_blank">2 ferramentas adicionadas. //19/01/2006//
+</a>
+	                </td>
+                </tr>
+                
+                <tr>
+	                <td class="style3">
+	                	&nbsp;&nbsp;&nbsp;<a href="http://server.aker.com.br/suporte/dokuwiki/doku.php?id=private:ferramentas" target="_blank">2 ferramentas adicionadas. //17/01/2006//
+</a>
+	                </td>
+                </tr>
+                
+				</tr>
+				
+				<tr>
+	                <td class="style21">
+	                	Desenvolvimento
+	                </td>
+                
+                <tr>
+	                <td class="style3">
+	                	&nbsp;&nbsp;&nbsp;<a href="http://server.aker.com.br/desenvolvimento/dokuwiki/doku.php?id=public:news#" target="_blank"></a>
+	                </td>
+                </tr>
+                
+                <tr>
+	                <td class="style3">
+	                	&nbsp;&nbsp;&nbsp;<a href="http://server.aker.com.br/desenvolvimento/dokuwiki/doku.php?id=public:news#" target="_blank"></a>
+	                </td>
+                </tr>
+                
+                <tr>
+	                <td class="style3">
+	                	&nbsp;&nbsp;&nbsp;<a href="http://server.aker.com.br/desenvolvimento/dokuwiki/doku.php?id=public:news#" target="_blank"></a>
+	                </td>
+                </tr>
+                
+				</tr>
+				<tr>
+	                <td class="style21">
+	                	Cartas da Diretoria
+	                </td>
+                
+                <tr>
+	                <td class="style3">
+	                	&nbsp;&nbsp;&nbsp;<a href="http://server.aker.com.br/dokuwiki/doku.php?id=public:2008-10-06_-_boletim_interno_04/2008" target="_blank">2008-10-06 - Boletim Interno 04/2008</a>
+	                </td>
+                </tr>
+                
+                <tr>
+	                <td class="style3">
+	                	&nbsp;&nbsp;&nbsp;<a href="http://server.aker.com.br/dokuwiki/doku.php?id=public:2008-07-11_-_boletim_interno_03/2008" target="_blank">2008-07-11 - Boletim Interno 03/2008</a>
+	                </td>
+                </tr>
+                
+                <tr>
+	                <td class="style3">
+	                	&nbsp;&nbsp;&nbsp;<a href="http://server.aker.com.br/dokuwiki/doku.php?id=public:2008-04-9_-_boletim_interno_02/2008" target="_blank">2008-04-9 - Boletim Interno 02/2008</a>
+	                </td>
+                </tr>
+                
+				</tr>
+				<tr>
+	                <td class="style21">
+	                	Circular
+	                </td>
+                <tr>
+	                <td class="style3">
+	                	&nbsp;&nbsp;&nbsp;<a href="http://server.aker.com.br/dokuwiki/doku.php?id=public:2008-06-13_-_0010/2008_meta_aker_2008_-_nova" target="_blank">2008-06-13 - 0010/2008 META AKER 2008 - nova</a>
+	                </td>
+                </tr>
+                
+                <tr>
+	                <td class="style3">
+	                	&nbsp;&nbsp;&nbsp;<a href="http://server.aker.com.br/dokuwiki/doku.php?id=public:2008-06-09_-_0009/2008_regras_para_banco_de_horas" target="_blank">2008-06-09 - 0009/2008 Regras para Banco de Horas</a>
+	                </td>
+                </tr>
+                
+                <tr>
+	                <td class="style3">
+	                	&nbsp;&nbsp;&nbsp;<a href="http://server.aker.com.br/dokuwiki/doku.php?id=public:2008-06-06_-_0008/2008_informe_geral" target="_blank">2008-06-06 - 0008/2008 Informe geral</a>
+	                </td>
+                </tr>
+                </tr>
+                
+                  </tr>
+                </table>                
+                </td>
+                <td background="images/spacer_gray.gif"><img src="images/spacer.gif" width="1" height="1"></td>
+              </tr>
+              <tr>
+                <td><img src="images/spacer_gray.gif" width="1" height="1"></td>
+                <td colspan="3" background="images/spacer_gray.gif"><img src="images/spacer.gif" width="1" height="1"></td>
+                <td><img src="images/spacer_gray.gif" width="1" height="1"></td>
+              </tr>
+            </table>
+            <img src="images/spacer.gif" width="700" height="10"><br></td>
+        <td background="images/spacer_gray.gif"><img src="images/spacer.gif" width="1" height="1"></td>
+      </tr>
+      <tr>
+        <td height="2"><img src="images/spacer_gray.gif" width="1" height="1"></td>
+        <td background="images/spacer_gray.gif"><img src="images/spacer.gif" width="1" height="1"></td>
+        <td><img src="images/spacer_gray.gif" width="1" height="1"></td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td colspan="3">&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="3"><table width="700" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td><table width="340" border="0" align="left" cellpadding="0" cellspacing="0">
+          <tr>
+            <td width="10"><img src="images/spacer_gray.gif" width="1" height="1"></td>
+            <td width="319" background="images/spacer_gray.gif"><img src="images/spacer.gif" width="338" height="1"></td>
+            <td width="11"><img src="images/spacer_gray.gif" width="1" height="1"></td>
+          </tr>
+          <tr>
+            <td background="images/spacer_gray.gif"><img src="images/spacer.gif" width="1" height="1"></td>
+            <td><table width="100%"  border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td colspan="4"><a href="http://www.aker.com.br/" target="_blank"><span class="style2">Aker Internet Website </span></a></td>
+              </tr>
+              <tr>
+                <td colspan="4"><img src="images/spacer.gif" width="100" height="15"></td>
+              </tr>
+              <tr>
+                <td align="left" valign="top"><img src="images/spacer.gif" width="10" height="50"></td>
+                <td align="left" valign="top"><a href="http://www.aker.com.br/" target="_blank"><img src="images/icos_web.jpg" width="44" height="44" border="0"></a></td>
+                <td><img src="images/spacer.gif" width="10" height="50"></td>
+                <td align="left" valign="top"><span class="style3">P&aacute;gina da Aker Security Solutions na Internet. </span></td>
+              </tr>
+              <tr>
+                <td colspan="4" class="style4">fale com o respons&aacute;vel </td>
+                </tr>
+            </table></td>
+            <td background="images/spacer_gray.gif"><img src="images/spacer.gif" width="1" height="1"></td>
+          </tr>
+          <tr>
+            <td><img src="images/spacer_gray.gif" width="1" height="1"></td>
+            <td background="images/spacer_gray.gif"><img src="images/spacer.gif" width="1" height="1"></td>
+            <td><img src="images/spacer_gray.gif" width="1" height="1"></td>
+          </tr>
+        </table></td>
+        <td><img src="images/spacer.gif" width="10" height="100"></td>
+        <td><table width="340" border="0" align="left" cellpadding="0" cellspacing="0">
+          <tr>
+            <td width="10"><img src="images/spacer_gray.gif" width="1" height="1"></td>
+            <td width="319" background="images/spacer_gray.gif"><img src="images/spacer.gif" width="338" height="1"></td>
+            <td width="11"><img src="images/spacer_gray.gif" width="1" height="1"></td>
+          </tr>
+          <tr>
+            <td background="images/spacer_gray.gif"><img src="images/spacer.gif" width="1" height="1"></td>
+            <td><table width="100%"  border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td colspan="4"><a href="http://server.aker.com.br/dokuwiki/doku.php?id=public:administrativo" target="_blank"><span class="style2">Departamento Administrativo </span></a></td>
+              </tr>
+              <tr>
+                <td colspan="4"><img src="images/spacer.gif" width="100" height="15"></td>
+              </tr>
+              <tr>
+                <td width="3%" align="left" valign="top"><img src="images/spacer.gif" width="10" height="50"></td>
+                <td width="13%" align="left" valign="top"><a href="http://server.aker.com.br/dokuwiki/doku.php?id=public:administrativo" target="_blank"><img src="images/icos_adm.jpg" width="44" height="35" border="0"></a></td>
+                <td width="3%"><img src="images/spacer.gif" width="10" height="50"></td>
+                <td width="81%" align="left" valign="top"><span class="style3">P&aacute;gina interna do Departamento Administrativo, Financeiro e RH.</span></td>
+              </tr>
+              <tr>
+                <td colspan="4" class="style4">fale com o respons&aacute;vel </td>
+              </tr>
+            </table></td>
+            <td background="images/spacer_gray.gif"><img src="images/spacer.gif" width="1" height="1"></td>
+          </tr>
+          <tr>
+            <td><img src="images/spacer_gray.gif" width="1" height="1"></td>
+            <td background="images/spacer_gray.gif"><img src="images/spacer.gif" width="1" height="1"></td>
+            <td><img src="images/spacer_gray.gif" width="1" height="1"></td>
+          </tr>
+        </table></td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td colspan="3"><img src="images/spacer.gif" width="700" height="10"></td>
+  </tr>
+  <tr>
+    <td><table width="340" border="0" align="left" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="10"><img src="images/spacer_gray.gif" width="1" height="1"></td>
+        <td width="319" background="images/spacer_gray.gif"><img src="images/spacer.gif" width="338" height="1"></td>
+        <td width="11"><img src="images/spacer_gray.gif" width="1" height="1"></td>
+      </tr>
+      <tr>
+        <td background="images/spacer_gray.gif"><img src="images/spacer.gif" width="1" height="1"></td>
+        <td><table width="100%"  border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td colspan="4"><a href="http://server.aker.com.br/comercial/" target="_blank"><span class="style2">Comercial e Marketing </span></a></td>
+          </tr>
+          <tr>
+            <td colspan="4"><img src="images/spacer.gif" width="100" height="15"></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><img src="images/spacer.gif" width="10" height="50"></td>
+            <td align="left" valign="top"><a href="http://server.aker.com.br/comercial/" target="_blank"><img src="images/icos_mkt.jpg" width="44" height="46" border="0"></a></td>
+            <td><img src="images/spacer.gif" width="10" height="50"></td>
+            <td align="left" valign="top"><span class="style3">P&aacute;gina interna do Departamento Comercial / Marketing da Aker.</span></td>
+          </tr>
+          <tr>
+            <td colspan="4" class="style4">fale com o respons&aacute;vel </td>
+          </tr>
+        </table></td>
+        <td background="images/spacer_gray.gif"><img src="images/spacer.gif" width="1" height="1"></td>
+      </tr>
+      <tr>
+        <td><img src="images/spacer_gray.gif" width="1" height="1"></td>
+        <td background="images/spacer_gray.gif"><img src="images/spacer.gif" width="1" height="1"></td>
+        <td><img src="images/spacer_gray.gif" width="1" height="1"></td>
+      </tr>
+    </table></td>
+    <td width="10"><img src="images/spacer.gif" width="10" height="100"></td>
+    <td width="347"><table width="340" border="0" align="left" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="10"><img src="images/spacer_gray.gif" width="1" height="1"></td>
+        <td width="319" background="images/spacer_gray.gif"><img src="images/spacer.gif" width="338" height="1"></td>
+        <td width="11"><img src="images/spacer_gray.gif" width="1" height="1"></td>
+      </tr>
+      <tr>
+        <td background="images/spacer_gray.gif"><img src="images/spacer.gif" width="1" height="1"></td>
+        <td><table width="100%"  border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td colspan="4"><a href="http://server.aker.com.br/suporte/" target="_blank"><span class="style2">Suporte T&eacute;cnico </span></a></td>
+          </tr>
+          <tr>
+            <td colspan="4"><img src="images/spacer.gif" width="100" height="15"></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><img src="images/spacer.gif" width="10" height="50"></td>
+            <td align="left" valign="top"><a href="http://server.aker.com.br/suporte/" target="_blank"><img src="images/icos_sup.jpg" width="44" height="44" border="0"></a></td>
+            <td><img src="images/spacer.gif" width="10" height="50"></td>
+            <td align="left" valign="top"><span class="style3">P&aacute;gina interna do Suporte Tcnico da Aker. </span></td>
+          </tr>
+          <tr>
+            <td colspan="4" class="style4">fale com o respons&aacute;vel </td>
+          </tr>
+        </table></td>
+        <td background="images/spacer_gray.gif"><img src="images/spacer.gif" width="1" height="1"></td>
+      </tr>
+      <tr>
+        <td><img src="images/spacer_gray.gif" width="1" height="1"></td>
+        <td background="images/spacer_gray.gif"><img src="images/spacer.gif" width="1" height="1"></td>
+        <td><img src="images/spacer_gray.gif" width="1" height="1"></td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td colspan="3"><img src="images/spacer.gif" width="700" height="10"></td>
+  </tr>
+  <tr>
+    <td><table width="340" border="0" align="left" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="10"><img src="images/spacer_gray.gif" width="1" height="1"></td>
+        <td width="319" background="images/spacer_gray.gif"><img src="images/spacer.gif" width="338" height="1"></td>
+        <td width="11"><img src="images/spacer_gray.gif" width="1" height="1"></td>
+      </tr>
+      <tr>
+        <td background="images/spacer_gray.gif"><img src="images/spacer.gif" width="1" height="1"></td>
+        <td><table width="100%"  border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td colspan="4"><a href="http://server.aker.com.br/desenvolvimento/" target="_blank"><span class="style2"> Desenvolvimento de Produtos </span></a></td>
+          </tr>
+          <tr>
+            <td colspan="4"><img src="images/spacer.gif" width="100" height="15"></td>
+          </tr>
+          <tr>
+            <td width="3%" align="left" valign="top"><img src="images/spacer.gif" width="10" height="50"></td>
+            <td width="15%" align="left" valign="top"><a href="http://server.aker.com.br/desenvolvimento/" target="_blank"><img src="images/icos_desen.jpg" width="44" height="55" border="0"></a></td>
+            <td width="3%"><img src="images/spacer.gif" width="10" height="50"></td>
+            <td width="79%" align="left" valign="top"><span class="style3">P&aacute;gina interna do Departamento de Desenvolvimento da Aker. </span></td>
+          </tr>
+          <tr>
+            <td colspan="4" class="style4">fale com o respons&aacute;vel </td>
+          </tr>
+        </table></td>
+        <td background="images/spacer_gray.gif"><img src="images/spacer.gif" width="1" height="1"></td>
+      </tr>
+      <tr>
+        <td><img src="images/spacer_gray.gif" width="1" height="1"></td>
+        <td background="images/spacer_gray.gif"><img src="images/spacer.gif" width="1" height="1"></td>
+        <td><img src="images/spacer_gray.gif" width="1" height="1"></td>
+      </tr>
+    </table></td>
+    <td><img src="images/spacer.gif" width="10" height="100"></td>
+    <td><table width="340" border="0" align="left" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="10"><img src="images/spacer_gray.gif" width="1" height="1"></td>
+        <td width="319" background="images/spacer_gray.gif"><img src="images/spacer.gif" width="338" height="1"></td>
+        <td width="11"><img src="images/spacer_gray.gif" width="1" height="1"></td>
+      </tr>
+      <tr>
+        <td background="images/spacer_gray.gif"><img src="images/spacer.gif" width="1" height="1"></td>
+        <td><table width="100%"  border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td colspan="4"><a href="http://server.aker.com.br/db/" target="_blank"><span class="style2">Base de Dados </span></a></td>
+          </tr>
+          <tr>
+            <td colspan="4"><img src="images/spacer.gif" width="100" height="15"></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><img src="images/spacer.gif" width="10" height="50"></td>
+            <td align="left" valign="top"><a href="http://server.aker.com.br/db/" target="_blank"><img src="images/icos_base.jpg" width="44" height="53" border="0"></a></td>
+            <td><img src="images/spacer.gif" width="10" height="50"></td>
+            <td align="left" valign="top"><span class="style3">Acesse a Base de Dados da Aker</span></td>
+          </tr>
+          <tr>
+            <td colspan="4" class="style4">fale com o respons&aacute;vel </td>
+          </tr>
+        </table></td>
+        <td background="images/spacer_gray.gif"><img src="images/spacer.gif" width="1" height="1"></td>
+      </tr>
+      <tr>
+        <td><img src="images/spacer_gray.gif" width="1" height="1"></td>
+        <td background="images/spacer_gray.gif"><img src="images/spacer.gif" width="1" height="1"></td>
+        <td><img src="images/spacer_gray.gif" width="1" height="1"></td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td colspan="3"><img src="images/spacer.gif" width="700" height="10"></td>
+  </tr>
+  <tr>
+    <td><table width="340" border="0" align="left" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="10"><img src="images/spacer_gray.gif" width="1" height="1"></td>
+        <td width="319" background="images/spacer_gray.gif"><img src="images/spacer.gif" width="338" height="1"></td>
+        <td width="11"><img src="images/spacer_gray.gif" width="1" height="1"></td>
+      </tr>
+      <tr>
+        <td background="images/spacer_gray.gif"><img src="images/spacer.gif" width="1" height="1"></td>
+        <td><table width="100%"  border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td colspan="4"><a href="https://asmg.aker.com.br/akmailgw/usergui/index.php" target="_blank"><span class="style2">Interface ASMG - User </span></a></td>
+          </tr>
+          <tr>
+            <td colspan="4"><img src="images/spacer.gif" width="100" height="15"></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><img src="images/spacer.gif" width="10" height="50"></td>
+            <td align="left" valign="top"><a href="https://asmg.aker.com.br/akmailgw/usergui/index.php" target="_blank"><img src="images/icos_mail.jpg" width="44" height="44" border="0"></a></td>
+            <td><img src="images/spacer.gif" width="10" height="50"></td>
+            <td align="left" valign="top"><span class="style3">Interface do Aker Secure Mail Gateway</span></td>
+          </tr>
+          <tr>
+            <td colspan="4" class="style4">fale com o respons&aacute;vel </td>
+          </tr>
+        </table></td>
+        <td background="images/spacer_gray.gif"><img src="images/spacer.gif" width="1" height="1"></td>
+      </tr>
+      <tr>
+        <td><img src="images/spacer_gray.gif" width="1" height="1"></td>
+        <td background="images/spacer_gray.gif"><img src="images/spacer.gif" width="1" height="1"></td>
+        <td><img src="images/spacer_gray.gif" width="1" height="1"></td>
+      </tr>
+    </table></td>
+    <td><img src="images/spacer.gif" width="10" height="100"></td>
+    <td><table width="340" border="0" align="left" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="10"><img src="images/spacer_gray.gif" width="1" height="1"></td>
+        <td width="319" background="images/spacer_gray.gif"><img src="images/spacer.gif" width="338" height="1"></td>
+        <td width="11"><img src="images/spacer_gray.gif" width="1" height="1"></td>
+      </tr>
+      <tr>
+        <td background="images/spacer_gray.gif"><img src="images/spacer.gif" width="1" height="1"></td>
+        <td><table width="100%"  border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td colspan="4"><a href="http://server.aker.com.br/cgi-bin/majordomo" target="_blank"><span class="style2">Controles da Lista de Discuss&atilde;o </span></a></td>
+          </tr>
+          <tr>
+            <td colspan="4"><img src="images/spacer.gif" width="100" height="15"></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><img src="images/spacer.gif" width="10" height="50"></td>
+            <td align="left" valign="top"><a href="http://server.aker.com.br/cgi-bin/majordomo" target="_blank"><img src="images/icos_list.jpg" width="44" height="40" border="0"></a></td>
+            <td><img src="images/spacer.gif" width="10" height="50"></td>
+            <td align="left" valign="top"><span class="style3">Interface para controle restrito das listas de discuss&atilde;o.</span></td>
+          </tr>
+          <tr>
+            <td colspan="4" class="style4">fale com o respons&aacute;vel </td>
+          </tr>
+        </table></td>
+        <td background="images/spacer_gray.gif"><img src="images/spacer.gif" width="1" height="1"></td>
+      </tr>
+      <tr>
+        <td><img src="images/spacer_gray.gif" width="1" height="1"></td>
+        <td background="images/spacer_gray.gif"><img src="images/spacer.gif" width="1" height="1"></td>
+        <td><img src="images/spacer_gray.gif" width="1" height="1"></td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td colspan="3"><img src="images/spacer.gif" width="700" height="10"></td>
+  </tr>
+  <tr>
+    <td><table width="340" border="0" align="left" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="10"><img src="images/spacer_gray.gif" width="1" height="1"></td>
+        <td width="319" background="images/spacer_gray.gif"><img src="images/spacer.gif" width="338" height="1"></td>
+        <td width="11"><img src="images/spacer_gray.gif" width="1" height="1"></td>
+      </tr>
+      <tr>
+        <td background="images/spacer_gray.gif"><img src="images/spacer.gif" width="1" height="1"></td>
+        <td><table width="100%"  border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td colspan="4"><a href="http://server.aker.com.br/homologacao/dokuwiki/doku.php" target="_blank"><span class="style2">Homologa&ccedil;Ã£o</span></a></td>
+          </tr>
+          <tr>
+            <td colspan="4"><img src="images/spacer.gif" width="100" height="15"></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><img src="images/spacer.gif" width="10" height="50"></td>
+            <td align="left" valign="top"><a href="http://server.aker.com.br/homologacao/dokuwiki/doku.php" target="_blank"><img src="images/icos_cont.jpg" width="44" height="55" border="0"></a></td>
+            <td><img src="images/spacer.gif" width="10" height="50"></td>
+            <td align="left" valign="top"><span class="style3">Homologa&ccedil;Ã£o.</span></td>
+          </tr>
+          <tr>
+            <td colspan="4" class="style4">fale com o respons&aacute;vel </td>
+          </tr>
+        </table></td>
+        <td background="images/spacer_gray.gif"><img src="images/spacer.gif" width="1" height="1"></td>
+      </tr>
+      <tr>
+        <td><img src="images/spacer_gray.gif" width="1" height="1"></td>
+        <td background="images/spacer_gray.gif"><img src="images/spacer.gif" width="1" height="1"></td>
+        <td><img src="images/spacer_gray.gif" width="1" height="1"></td>
+      </tr>
+    </table></td>
+    <td><img src="images/spacer.gif" width="10" height="100"></td>
+    <td><table width="340" border="0" align="left" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="10"><img src="images/spacer_gray.gif" width="1" height="1"></td>
+        <td width="319" ><img src="images/spacer.gif" width="338" height="1"></td>
+        <td width="11"><img src="images/spacer_gray.gif" width="1" height="1"></td>
+      </tr>
+      <tr>
+        <td ><img src="images/spacer.gif" width="1" height="1"></td>
+        <td><table width="340" border="0" align="left" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="10"><img src="images/spacer_gray.gif" width="1" height="1"></td>
+        <td width="319" background="images/spacer_gray.gif"><img src="images/spacer.gif" width="338" height="1"></td>
+        <td width="11"><img src="images/spacer_gray.gif" width="1" height="1"></td>
+      </tr>
+      <tr>
+        <td background="images/spacer_gray.gif"><img src="images/spacer.gif" width="1" height="1"></td>
+        <td><table width="100%"  border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td colspan="4"><a href="http://server.aker.com.br/intranet_aker/relatorios" target="_blank"><span class="style2">Relat&oacute;rios</span></a></td>
+            </tr>
+            <tr>
+              <td colspan="4"><img src="images/spacer.gif" width="100" height="15"></td>
+            </tr>
+            <tr>
+              <td align="left" valign="top"><img src="images/spacer.gif" width="10" height="50"></td>
+              <td align="left" valign="top"><a href="http://server.aker.com.br/intranet_aker/relatorios" target="_blank"><img src="images/relatorio.jpg" width="44" height="55" border="0"></a></td>
+              <td><img src="images/spacer.gif" width="10" height="50"></td>
+              <td align="left" valign="top"><span class="style3">Relat&oacute;rios Gerados pelo firewall Aker.</span></td>
+            </tr>
+            <tr>
+              <td colspan="4" class="style4">fale com o respons&aacute;vel </td>
+            </tr>
+        </table>
+        </td>
+        <td background="images/spacer_gray.gif"><img src="images/spacer.gif" width="1" height="1"></td>
+      </tr>
+      <tr>
+        <td><img src="images/spacer_gray.gif" width="1" height="1"></td>
+        <td background="images/spacer_gray.gif"><img src="images/spacer.gif" width="1" height="1"></td>
+        <td><img src="images/spacer_gray.gif" width="1" height="1"></td>
+      </tr>
+    </table></td>
+        <td ><img src="images/spacer.gif" width="1" height="1"></td>
+      </tr>
+      <tr>
+        <td><img src="images/spacer_gray.gif" width="1" height="1"></td>
+        <td ><img src="images/spacer.gif" width="1" height="1"></td>
+        <td><img src="images/spacer_gray.gif" width="1" height="1"></td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td colspan="3">&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="3">
+      <p><img src="images/spacer.gif" width="700" height="10"></p>      </td>
+  </tr>
+  <tr>
+    <td colspan="3"><p><span class="style6">O que &eacute; a Intranet Aker? </span></p>
+        <table width="700" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td><img src="images/spacer.gif" width="10" height="10"></td>
+            <td><span class="style3">A Central de Informa&ccedil;&otilde;es Aker &eacute; a mais nova fonte de informa&ccedil;&atilde;o da empresa. A p&aacute;gina foi desenvolvida para que voc&ecirc; tenha um acesso r&aacute;pido aos sites internos e as not&iacute;cias que circulam pelos departamentos.</span></td>
+          </tr>
+      </table></td>
+  </tr>
+  <tr>
+    <td><img src="images/spacer.gif" width="169" height="10"></td>
+    <td>&nbsp;</td>
+    <td><div align="right"><span class="style4">Saiba mais </span></div></td>
+  </tr>
+  <tr>
+    <td colspan="3"><p><span class="style6">Como navegar? </span></p>
+        <table width="700" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td><img src="images/spacer.gif" width="10" height="10"></td>
+            <td colspan="2"><span class="style3">Para faciliar a forma como voc&ecirc; procurar&aacute; as informa&ccedil;&otilde;es, separamos abaixo os links para as p&aacute;ginas dos departamentos. Assim voc&ecirc; ter&aacute; acesso mais din&acirc;mico aos setores, podendo entender seus procedimentos e conhecer sobre os projetos individuais de cada &aacute;rea da Aker Security Solutions. </span></td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td><div align="right"><span class="style4">Saiba mais </span></div></td>
+          </tr>
+      </table></td>
+  </tr>
+  <tr>
+    <td colspan="3">&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="3"><img src="images/spacer_gray.gif" width="700" height="2"></td>
+  </tr>
+  <tr>
+    <td colspan="3">&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>
