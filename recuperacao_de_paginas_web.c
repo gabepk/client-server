@@ -10,13 +10,14 @@
 #include <unistd.h>
 
 #define PORT 80
-#define BUFFER_SIZE 500
-#define HEADER_BUFFER_SIZE 1024
-#define MAX_STRING_SIZE 1024
+#define BUFFER_SIZE 15
+#define HEADER_BUFFER_SIZE 512
+#define MAX_STRING_SIZE 256
 
 
 FILE *fp;
 int sockfd;
+char file_name[MAX_STRING_SIZE];
 char msg[MAX_STRING_SIZE];
 char host[MAX_STRING_SIZE];
 char path[MAX_STRING_SIZE];
@@ -25,7 +26,7 @@ char buffer[BUFFER_SIZE];
 void build_host_and_path (char *input_path) {
   int i = 0, path_size = strlen(input_path);
   
-  /* Se path nao tem ''/'' no final, adiciona */
+  /* Add ''/'' to path if it is not the last character */
   if (input_path[path_size - 1] != '/') {
     input_path[path_size] = '/';
     input_path[path_size + 1] = '\0';
@@ -33,6 +34,7 @@ void build_host_and_path (char *input_path) {
   }
   strncpy(path, input_path, path_size);
   
+  /* Host is string either in between ''/'' or it ends with a ''/''. */
   if (strstr(path, "http://") || strstr(path, "https://")) {
     strtok(input_path, "/");
     strcpy(host, strtok(NULL, "/"));   
@@ -86,7 +88,7 @@ void connect_to_socket ()
   return;
 }
 
-void send_message(int sockfd) {
+void send_message() {
   int bytes_sent, offset, msg_size;
 
   msg_size = strlen(msg);
@@ -111,12 +113,22 @@ void send_message(int sockfd) {
   return;
 }
 
-void recv_message(int sockfd) {
+void recv_message() {
   int bytes_recv;
 
-  /* Header */
- 
-  int i = 0, still_header = 1;
+  fp = fopen(file_name, "w+");                                                     
+  if (!fp) {                                                                    
+    perror("\nError opening the file");                                         
+    exit(1);                                                                    
+  } 
+
+  /* Receive header in blocks of size BUFFER_SIZE and store it on
+   * variable header of size HEADER_BUFFER_SIZE. If text ''\r\n\r\n'' is found
+   * on header, everything after that is written on file ''file_name'' and
+   * while loop stops
+   */
+
+  int i = 0, blocks = 0, still_header = 1;
   char header[HEADER_BUFFER_SIZE], *end_of_header;
  
   memset(header, 0, HEADER_BUFFER_SIZE);
@@ -133,20 +145,22 @@ void recv_message(int sockfd) {
 
     strncat(header, buffer, BUFFER_SIZE);    
     end_of_header = strstr(header, "\r\n\r\n");
-
+    blocks++;
     if (end_of_header) {
       int pos = end_of_header - header + 4;
 
-      for (i = pos; i < BUFFER_SIZE; i++)
+      for (i = pos; i < (BUFFER_SIZE*blocks); i++)
         fprintf(fp, "%c", header[i]);
-    
+      
       still_header = 0; 
     }
     
   } while (still_header == 1);
 
-  /* Content */
 
+  /* Receive content in blocks of BUFFER_SIZE 
+   * and write it on file ''file_name''. */
+  
   do {
     memset(buffer, 0, BUFFER_SIZE);
     bytes_recv = recv(sockfd, buffer, BUFFER_SIZE, 0);
@@ -160,6 +174,7 @@ void recv_message(int sockfd) {
     fprintf(fp, "%s", buffer);
   } while (bytes_recv > 0);
   
+  fclose(fp);
   return;
 }
   
@@ -169,31 +184,26 @@ int main (int argc, char *argv[]) {
     exit(1);
   }
   
-  fp = fopen(argv[2], "r+");
+  strncpy(file_name, argv[2], strlen(argv[2]));
+  fp = fopen(file_name, "r");
   if (fp) {
-    /* Se flag de sobrescrita nao foi informada, exit. */
+    
+    /* If file exists and flag is not on args, 
+     * or it is but it's not ''-s'', program exits */
     if (!argv[3] || (argv[3] && strncmp(argv[3], "-s", 2) != 0)) {
       printf("\nFile ''%s'' already exists.\n", argv[2]);
-      printf("To overwrite it, add the flag ''-s'' to the end of the args\
-             list.\n\n");
+      printf("To overwrite it, add the flag ''-s'' to the args.\n\n");
       exit(1);
     }
-  }
-  else {
-    fp = fopen(argv[2], "a+");
-    if (!fp) {
-      perror("\nError opening the file");
-      exit(1);
-    }
+    fclose(fp);
   }
  
   build_host_and_path(argv[1]);
   snprintf(msg, 18+strlen(path), "GET %s HTTP/1.0\r\n\r\n", path);
 
   connect_to_socket();
-  send_message(sockfd); 
-  recv_message(sockfd);
-  close(sockfd);
-  fclose(fp);
+  send_message(); 
+  recv_message();
+  close(sockfd); 
   return 0;
 }
