@@ -9,21 +9,43 @@
 #include <netdb.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <sys/ioctl.h>
+#include <arpa/inet.h>
 
 #define PORT 80
-#define BUFFER_SIZE 100
-#define HEADER_BUFFER_SIZE 512
+#define BUFFER_SIZE 164
+#define HEADER_BUFFER_SIZE 1024
 #define MAX_STRING_SIZE 256
 #define SIZE_OF_GET 18
 
 
 int fp;
 int sockfd;
-char file_name[MAX_STRING_SIZE];
 char msg[MAX_STRING_SIZE];
 char host[MAX_STRING_SIZE];
 char path[MAX_STRING_SIZE];
 char buffer[BUFFER_SIZE];
+
+/**                                                                             
+* @brief Funcao verifica se path leva a arquivo ou a um diretorio                                         
+*
+* Se o path dado pelo usuario leva a um arquivo (por exemplo .../image.png),
+* nao adiciona ''/'' no final da URL. Se leva a um diretorio (por exemplo 
+* .../Imagens), adiciona ''/'' no final da URL.                                                                             
+*                                                                              
+* @param input_path URL dada pelo usuario 
+* @return 0 se e diretorio, 1 se e arquivo                                     
+*                                                                              
+*/
+
+int is_file (char *input_path) {                                                
+  char *last_token = strrchr(input_path, '/');                                  
+  if (last_token != NULL) {                                                     
+    if (strstr(last_token+1, "."))                                                
+      return 1; /* URL links to a file */                                       
+  }                                                                             
+  return 0; /* URL doesn't link to a file */                                    
+}
 
 /** 
  * @brief Funcao constroi o host e o path a partir do input dado pelo
@@ -42,7 +64,7 @@ void build_host_and_path (char *input_path)
   int i = 0, path_size = strlen(input_path);
   
   /* Add ''/'' to path if it is not the last character. */
-  if (input_path[path_size - 1] != '/')
+  if ((input_path[path_size - 1] != '/') && (!is_file(input_path)))
   {
     input_path[path_size] = '/';
     input_path[path_size + 1] = '\0';
@@ -64,9 +86,7 @@ void build_host_and_path (char *input_path)
       i++;
     } while (input_path[i] != '/');
   }
- 
-  printf("\n> Host: ''%s''\n> Path: ''%s''\n\n", host, path);  
-
+  if (path[path_size - 1] == '/') path[path_size - 1] = '\0';
   return;
 }
 
@@ -83,43 +103,43 @@ void build_host_and_path (char *input_path)
  * 
  */
 
-void connect_to_socket ()
-{
-  struct sockaddr_in server_addr;
-  struct hostent *server;
-  
-  printf("> Creating Socket . . .\n");
+void connect_to_server ()
+{  
   sockfd = socket(AF_INET, SOCK_STREAM, 0);
   if ( sockfd < 0)
   {
     perror("\nError trying to get socket");
     exit(1);
   }
-  printf("> Socket created with success!\n");
-
-  printf("> Searching host by name . . .\n");
-  server = gethostbyname(host);
-  if (!server)
-  {
-    herror("\nError trying to get server from host");
-    exit(1);
-  }
-  printf("> Host found!\n");
-
-  memset(&server_addr, 0, sizeof(server_addr));
-  server_addr.sin_family = AF_INET;
-  server_addr.sin_port = htons(PORT);
-  memcpy(&server_addr.sin_addr.s_addr, server->h_addr, server->h_length);
+  struct addrinfo ip_hints;
+  struct addrinfo *server_info, *s;
+  int err;
   
-  printf("> Connecting to server . . .\n");
-  if (connect(sockfd, (struct sockaddr *)&server_addr, sizeof(server_addr)) 
-      < 0)
-  {
-    perror("\nError trying to connect to server");
-    exit(1);
-  }
-  printf("> Server connected with success!\n");
+  /* Find n structs of type addrinfo that matches hostname
+   * on protocols http or https */
   
+  memset(&ip_hints, 0, sizeof(ip_hints));
+  ip_hints.ai_family = AF_INET;
+  ip_hints.ai_socktype = SOCK_STREAM;
+  
+  if ((err = getaddrinfo(host, "http", &ip_hints, &server_info)) != 0)
+  {
+    printf("\nError trying to find hostname: %s\n", gai_strerror(err));         
+    exit(1); 
+  } 
+
+  /* Get first addrinfo from the list on server_info and
+   * copy it to server_addr. Copy servers IP adderss to ip */
+  
+  for (s = server_info; s != NULL; s = s->ai_next)
+  {
+   if (connect(sockfd, (struct sockaddr *)s->ai_addr, sizeof(*s->ai_addr)) < 0)  
+     {                                                                       
+       perror("\nError trying to connect to server");                            
+       exit(1); 
+     }
+  }
+  freeaddrinfo(server_info);
   return;
 }
 
@@ -139,8 +159,6 @@ void send_message()
 
   msg_size = strlen(msg);
   offset = 0;
-  printf("\n[Message sent] \t");
-
   memset(buffer, 0, BUFFER_SIZE);
   do
   {
@@ -155,7 +173,6 @@ void send_message()
       break;
     
     offset += bytes_sent;
-    printf("%s", buffer);
   } while (offset < msg_size);
  
   return;
@@ -177,26 +194,20 @@ void recv_message()
 {
   int bytes_recv;
 
-  fp = open(file_name, O_CREAT | O_WRONLY, "a+");                                                     
-  if (fp < 0)
-  {
-    perror("\nError opening the file");                                         
-    exit(1);                                                                    
-  } 
-
-  /* Receive header in blocks of size BUFFER_SIZE and store it on variable 
+   /* Receive header in blocks of size BUFFER_SIZE and store it on variable 
    * header of size HEADER_BUFFER_SIZE. If text ''\r\n\r\n'' is found on  
    * header, everything after that is written on file ''file_name'' and  
    * while loop stops. */
 
-  int i = 0, blocks = 0, still_header = 1;
+  int blocks = 0, still_header = 1;
   char header[HEADER_BUFFER_SIZE], *end_of_header;
   char content_in_buffer[BUFFER_SIZE];
  
   memset(header, 0, HEADER_BUFFER_SIZE);
+  memset(content_in_buffer, 0, BUFFER_SIZE);
+  memset(buffer, 0, BUFFER_SIZE); 
   do
-  {
-    memset(buffer, 0, BUFFER_SIZE);                                             
+  {                                            
     bytes_recv = recv(sockfd, buffer, BUFFER_SIZE, 0);                          
     if (bytes_recv < 0)
     {
@@ -204,25 +215,27 @@ void recv_message()
       exit(1);                                                                  
     }                                                                           
     else if (bytes_recv == 0)                                                 
-      break;                                                                    
-
-    strncat(header, buffer, BUFFER_SIZE);    
+      break;                          
+                                          
+    strncat(header, buffer, bytes_recv);    
     end_of_header = strstr(header, "\r\n\r\n");
     blocks++;
-    printf("%d > %s\n", blocks, header);
-    if (end_of_header)
-    {
-      int pos = end_of_header - header + 4;
-
-      for (i = pos; i < (BUFFER_SIZE*blocks); i++)
-        content_in_buffer[i-pos] = header[i];
-      
-      content_in_buffer[i-pos] = '\0';
-      printf("CONTENT IN BUFFER: .%s.\n", content_in_buffer);
-      write(fp, content_in_buffer, 1);
-      still_header = 0; 
-    }
     
+    if (end_of_header)
+    { 
+      end_of_header += 4;
+      int j = 0;
+      int pos = end_of_header - header;
+      int pos_last_bytes = pos - BUFFER_SIZE*(blocks-1);
+      if (bytes_recv > pos_last_bytes) { 
+        for (j = 0; j < (bytes_recv - pos_last_bytes); j++) {
+          content_in_buffer[j] = buffer[pos_last_bytes + j];
+        }
+        write(fp, content_in_buffer, j);
+      }
+      still_header = 0;
+    }
+ 
   } while (still_header == 1);
 
 
@@ -231,50 +244,51 @@ void recv_message()
   
   do
   {
-    memset(buffer, 0, BUFFER_SIZE);
     bytes_recv = recv(sockfd, buffer, BUFFER_SIZE, 0);
     if (bytes_recv < 0)
     {
       perror("\nError trying to receive message from server");
       exit(1);
     }
-    else if (bytes_recv == 0)
-      break;
+    write(fp, buffer, bytes_recv);
 
-    write(fp, buffer, strlen(buffer));
-  } while (bytes_recv > 0);
+  } while (bytes_recv > 0 || (errno == EAGAIN) || (errno == EWOULDBLOCK));
   
   return;
 }
   
 int main (int argc, char *argv[])
 {
+  FILE *file_check;
   if (argc < 3)
   {
     printf("\nEnter <URL> <file name> <-s to overwrite file>\n\n");
     exit(1);
   }
   
-  strncpy(file_name, argv[2], strlen(argv[2]));
-  /*int fp_test = open(file_name, O_CREAT | O_WRONLY | O_APPEND, "a+");
-  if (fp_test >= 0)
+  file_check = fopen(argv[2], "r+");
+  if (file_check)
   {
-    
-   */ /* If file exists and flag is not on args, or 
-     * it is but it's not ''-s'', program exits.  */
-/*
-    if (!argv[3] || (argv[3] && strncmp(argv[3], "-s", 2) != 0))
+    if (!argv[3] || (strncmp(argv[3], "-s", 2) != 0))
     {
       printf("\nFile ''%s'' already exists.\n", argv[2]);
       printf("To overwrite it, add the flag ''-s'' to the args.\n\n");
       exit(1);
     }
-  }*/
+    fclose(file_check);
+  } 
+ 
+  fp = open(argv[2], O_CREAT|O_RDWR|O_TRUNC, 0644);                     
+  if (fp < 0)                                                                   
+  {                                                                             
+    perror("\nError opening the file");                                         
+    exit(1);                                                                    
+  }
  
   build_host_and_path(argv[1]);
   snprintf(msg, SIZE_OF_GET + strlen(path), "GET %s HTTP/1.0\r\n\r\n", path);
 
-  connect_to_socket();
+  connect_to_server();
   send_message(); 
   recv_message();
   close(sockfd); 
