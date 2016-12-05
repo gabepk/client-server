@@ -1,4 +1,9 @@
-/*$Id: $*/
+/*!
+ * \file  recuperador.c
+ * \brief Recuperador de Paginas Web
+ *
+ * "$Id: $"
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -12,7 +17,7 @@
 #include <sys/ioctl.h>
 #include <arpa/inet.h>
 
-#define PORT 80
+#define PORT 8080
 #define BUFFER_SIZE 164
 #define HEADER_BUFFER_SIZE 1024
 #define MAX_STRING_SIZE 256
@@ -26,40 +31,39 @@ char host[MAX_STRING_SIZE];
 char path[MAX_STRING_SIZE];
 char buffer[BUFFER_SIZE];
 
-/**                                                                             
-* @brief Funcao verifica se path leva a arquivo ou a um diretorio                                         
+/*
+* @brief Funcao verifica se path leva a arquivo ou a um diretorio
 *
 * Se o path dado pelo usuario leva a um arquivo (por exemplo .../image.png),
 * nao adiciona ''/'' no final da URL. Se leva a um diretorio (por exemplo 
-* .../Imagens), adiciona ''/'' no final da URL.                                                                             
-*                                                                              
-* @param input_path URL dada pelo usuario 
-* @return 0 se e diretorio, 1 se e arquivo                                     
-*                                                                              
+* .../Imagens), adiciona ''/'' no final da URL.
+*
+* @param input_path URL dada pelo usuario
+* @return 0 se e diretorio, 1 se e arquivo
 */
 
-int is_file (char *input_path) {                                                
-  char *last_token = strrchr(input_path, '/');                                  
-  if (last_token != NULL) {                                                     
-    if (strstr(last_token+1, "."))                                                
-      return 1; /* URL links to a file */                                       
-  }                                                                             
-  return 0; /* URL doesn't link to a file */                                    
+int is_file(char *input_path) {
+  char *last_token = strrchr(input_path, '/');
+  if (last_token != NULL)
+  {
+    if (strstr(last_token+1, "."))
+      return 1;
+  }
+  return 0;
 }
 
-/** 
+/**
  * @brief Funcao constroi o host e o path a partir do input dado pelo
  *        usuario no segundo argumento.
  *
  * Na URL, o host e uma string que esta entre ''https://'' ou ''http://''
  * e barra (''/''). Ou ele e a primeira string antes de uma barra. O path
- * e toda a string informada pelo usuario, com adicao de barra no final, 
+ * e toda a string informada pelo usuario, com adicao de barra no final,
  * se nao houver.
  *
  * @param input_path URL dada pelo usuario
- *
  */
-void build_host_and_path (char *input_path)
+void build_host_and_path(char *input_path)
 {
   int i = 0, path_size = strlen(input_path);
   
@@ -72,11 +76,13 @@ void build_host_and_path (char *input_path)
   }
   strncpy(path, input_path, path_size);
   
-  /* Host is string either in between ''/'' or it ends with a ''/''. */
+  /*
+   *  Host is string either in between ''/'' or it ends with a ''/''.
+   */
   if (strstr(path, "http://") || strstr(path, "https://"))
   {
     strtok(input_path, "/");
-    strcpy(host, strtok(NULL, "/"));   
+    strcpy(host, strtok(NULL, "/"));
   } 
   else
   {
@@ -98,12 +104,11 @@ void build_host_and_path (char *input_path)
  * sao utilizados o endereco do host e o sockfd para fazer conexao com o
  * servidor.
  *
- * @return Retorna se as conexoes deram certo, 
- * finaliza programa se alguma deu errado.
- * 
+ * @return Retorna se as conexoes deram certo,
+ * finaliza programa se alguma deu errado. 
  */
 
-void connect_to_server ()
+void connect_to_server()
 {  
   sockfd = socket(AF_INET, SOCK_STREAM, 0);
   if ( sockfd < 0)
@@ -111,34 +116,60 @@ void connect_to_server ()
     perror("\nError trying to get socket");
     exit(1);
   }
+  printf("Socket : %d\n", sockfd);
+  
   struct addrinfo ip_hints;
   struct addrinfo *server_info, *s;
   int err;
   
-  /* Find n structs of type addrinfo that matches hostname
-   * on protocols http or https */
+  /*
+   *  Find n structs of type addrinfo that matches hostname
+   *  on protocols http or https
+
+   */
   
   memset(&ip_hints, 0, sizeof(ip_hints));
   ip_hints.ai_family = AF_INET;
   ip_hints.ai_socktype = SOCK_STREAM;
-  
+
   if ((err = getaddrinfo(host, "http", &ip_hints, &server_info)) != 0)
   {
-    printf("\nError trying to find hostname: %s\n", gai_strerror(err));         
-    exit(1); 
-  } 
+    printf("\nError trying to find hostname: %s\n", gai_strerror(err));
+    exit(1);
+  }
 
   /* Get first addrinfo from the list on server_info and
-   * copy it to server_addr. Copy servers IP adderss to ip */
-  
+   * copy it to server_addr. Copy servers IP adderss to ip
+   */
+  int connected = 0;  
   for (s = server_info; s != NULL; s = s->ai_next)
   {
-   if (connect(sockfd, (struct sockaddr *)s->ai_addr, sizeof(*s->ai_addr)) < 0)  
-     {                                                                       
-       perror("\nError trying to connect to server");                            
-       exit(1); 
+     
+     /* Change from localhost to local IP (only to test on my machine) */
+     if (strncmp(inet_ntoa(((struct sockaddr_in*)s->ai_addr)->sin_addr), 
+         "127.0.0.1", 9) == 0)
+       inet_pton(AF_INET, "10.4.32.1", &(((struct sockaddr_in*)s->ai_addr)->sin_addr));
+
+
+
+
+     ((struct sockaddr_in *)s)->sin_port = htons(PORT);
+     printf("hostname: %s\n", 
+            inet_ntoa(((struct sockaddr_in*)s->ai_addr)->sin_addr));
+
+     if (connect(sockfd, (struct sockaddr *)s->ai_addr, sizeof(*s->ai_addr))
+         >= 0)
+     {
+       connected = 1;
+       break;
      }
   }
+  if (connected == 0)
+  {
+    perror("\nError trying to connect to server");
+    exit(1);
+  }
+
   freeaddrinfo(server_info);
   return;
 }
@@ -151,7 +182,6 @@ void connect_to_server ()
  * 
  * @return Retorna se mensagem foi enviada corretamente,
  * finaliza se funcao send nao funcionou
- *
  */
 void send_message()
 {
@@ -178,25 +208,24 @@ void send_message()
   return;
 }
 
- /**                                                                             
-  * @brief Recebe resposta do servidor                                           
-  *                                                                              
+ /**
+  * @brief Recebe resposta do servidor
+  *
   * Funcao recebe mensagem na sockete em blocos de tamanho BUFFER_SIZE.
   * Se mensagem for header, armazena em variavel header de tamanho
   * HEADER_BUFFER_SIZE. Se a mensagem for conteudo, escreve no arquivo
-  * ''file_name'', informado pelo usuario                                                           
-  *                                                                              
-  * @return Retorna se mensagem foi recebida corretamente,                        
-  * finaliza se funcao recv nao funcionou                                        
-  *                                                                              
-  */  
+  * ''file_name'', informado pelo usuario
+  *
+  * @return Retorna se mensagem foi recebida corretamente,
+  * finaliza se funcao recv nao funcionou
+  */
 void recv_message()
 {
   int bytes_recv;
 
-   /* Receive header in blocks of size BUFFER_SIZE and store it on variable 
+   /* Receive header in blocks of size BUFFER_SIZE and store it on variable
    * header of size HEADER_BUFFER_SIZE. If text ''\r\n\r\n'' is found on  
-   * header, everything after that is written on file ''file_name'' and  
+   * header, everything after that is written on file ''file_name'' and
    * while loop stops. */
 
   int blocks = 0, still_header = 1;
@@ -207,17 +236,17 @@ void recv_message()
   memset(content_in_buffer, 0, BUFFER_SIZE);
   memset(buffer, 0, BUFFER_SIZE); 
   do
-  {                                            
-    bytes_recv = recv(sockfd, buffer, BUFFER_SIZE, 0);                          
+  {
+    bytes_recv = recv(sockfd, buffer, BUFFER_SIZE, 0);
     if (bytes_recv < 0)
     {
-      perror("\nError trying to receive message from server");                  
-      exit(1);                                                                  
-    }                                                                           
-    else if (bytes_recv == 0)                                                 
-      break;                          
-                                          
-    strncat(header, buffer, bytes_recv);    
+      perror("\nError trying to receive message from server");
+      exit(1);
+    }
+    else if (bytes_recv == 0)
+      break;
+
+    strncat(header, buffer, bytes_recv);
     end_of_header = strstr(header, "\r\n\r\n");
     blocks++;
     
@@ -226,9 +255,11 @@ void recv_message()
       end_of_header += 4;
       int j = 0;
       int pos = end_of_header - header;
-      int pos_last_bytes = pos - BUFFER_SIZE*(blocks-1);
-      if (bytes_recv > pos_last_bytes) { 
-        for (j = 0; j < (bytes_recv - pos_last_bytes); j++) {
+      int pos_last_bytes = pos - BUFFER_SIZE*(blocks - 1);
+      if (bytes_recv > pos_last_bytes)
+      { 
+        for (j = 0; j < (bytes_recv - pos_last_bytes); j++)
+        {
           content_in_buffer[j] = buffer[pos_last_bytes + j];
         }
         write(fp, content_in_buffer, j);
@@ -238,10 +269,10 @@ void recv_message()
  
   } while (still_header == 1);
 
-
-  /* Receive content in blocks of BUFFER_SIZE 
-   * and write it on file ''file_name''. */
-  
+  /*
+   * Receive content in blocks of BUFFER_SIZE
+   * and write it on file ''file_name''.
+   */
   do
   {
     bytes_recv = recv(sockfd, buffer, BUFFER_SIZE, 0);
@@ -252,12 +283,12 @@ void recv_message()
     }
     write(fp, buffer, bytes_recv);
 
-  } while (bytes_recv > 0 || (errno == EAGAIN) || (errno == EWOULDBLOCK));
+  } while (bytes_recv > 0);
   
   return;
 }
   
-int main (int argc, char *argv[])
+int main(int argc, char *argv[])
 {
   FILE *file_check;
   if (argc < 3)
@@ -276,13 +307,13 @@ int main (int argc, char *argv[])
       exit(1);
     }
     fclose(file_check);
-  } 
+  }
  
-  fp = open(argv[2], O_CREAT|O_RDWR|O_TRUNC, 0644);                     
-  if (fp < 0)                                                                   
-  {                                                                             
-    perror("\nError opening the file");                                         
-    exit(1);                                                                    
+  fp = open(argv[2], O_CREAT|O_RDWR|O_TRUNC, 0644);
+  if (fp < 0)
+  {
+    perror("\nError opening the file");
+    exit(1);
   }
  
   build_host_and_path(argv[1]);
