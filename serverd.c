@@ -18,7 +18,7 @@
 #define BACKLOG 10
 #define MAX_NAME_SIZE 64
 #define HEADER_BUFFER_SIZE 1024
-#define BUFFER_SIZE 4096
+#define BUFFER_SIZE 4
 
 int port;
 int sockfd;
@@ -129,7 +129,7 @@ void handle_client_message(int fd)
   {
     printf("[ERROR] You don't have permission to access this file.\n");
     bytes_to_send[fd] = -1;
-    send(fd, "POST 403 HTTP/1.0\r\n\r\n", 21, 0); /* 403 : Forbidden*/
+    send(fd, "HTTP/1.0 403 Forbidden\r\n\r\n", 26, 0); /* 403 : Forbidden*/
     return;
   }
 
@@ -139,7 +139,7 @@ void handle_client_message(int fd)
   {
     perror("File doesn't exists or can't be read");
     bytes_to_send[fd] = -1;
-    send(fd, "POST 404 HTTP/1.0\r\n\r\n", 21, 0); /* 404 : Not found */
+    send(fd, "HTTP/1.0 404 Not Found\r\n\r\n", 26, 0); /* 404 : Not found */
     return;
   }
 
@@ -149,7 +149,7 @@ void handle_client_message(int fd)
   lseek(f, 0L, SEEK_END);
   bytes_to_send[fd] = lseek(f, 0l, SEEK_CUR);
   files_to_send[fd] = f;
-  send(fd, "POST 200 HTTP/1.0\r\n\r\n", 21, 0); /* 200 : Accept */
+  send(fd, "HTTP/1.0 200 OK\r\n\r\n", 19, 0); /* 200 : Accept */
   return;
 }
 
