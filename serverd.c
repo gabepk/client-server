@@ -14,6 +14,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <fcntl.h>
+#include <sys/stat.h>
 
 #define BACKLOG 10
 #define MAX_NAME_SIZE 64
@@ -23,11 +24,39 @@
 int port;
 int sockfd;
 char buffer[BUFFER_SIZE];
+char path[MAX_NAME_SIZE];
 
 int bytes_sent[BACKLOG]; /* Number of bytes sent for each client */
 int bytes_to_send[BACKLOG]; /* Number of total bytes to send for each client */
 int files_to_send[BACKLOG]; /* File descriptor asked by each client */
 char headers[BACKLOG][HEADER_BUFFER_SIZE]; /* Request from each client */
+
+void check_if_is_path(char input_path[MAX_NAME_SIZE]) {
+  struct stat s;
+  if (stat(input_path, &s) == 0)
+  {
+    if (!(s.st_mode & S_IFDIR))
+    {
+      printf("[ERROR] Given path is not a directory.\n");
+      exit(1);
+    }
+    else if (input_path[strlen(input_path) -1] != '/')
+    {
+      printf("[ERROR] Given path is not a directory. Must end with '/'.\n");
+      exit(1);
+    }
+  }
+  else
+  {
+    printf("[ERROR] Couldn't verify given path\n");
+    exit(1);
+  }
+
+  strcpy(path, input_path);
+  path[strlen(path) - 1] = '\0';
+  return;
+}
+
 
 /**                                                                             
  * @brief Configure server to listen to cliente on one socket
@@ -105,15 +134,20 @@ void connect_to_server()
  */
 void handle_client_message(int fd)
 {
+  char clients_path[MAX_NAME_SIZE];
   char file_name[MAX_NAME_SIZE];
   char header[HEADER_BUFFER_SIZE];
-  
+
+  memset(clients_path, '\0', MAX_NAME_SIZE);
+ 
   strncpy(header, headers[fd], strlen(headers[fd]));
   strtok(headers[fd], " ");
 
-  strcpy(file_name, strtok(NULL, " /"));
-  
+  strcpy(file_name, strtok(NULL, " "));
   file_name[strlen(file_name)] = '\0';
+  strncpy(clients_path, path, strlen(path));
+  strncat(clients_path, file_name, strlen(file_name));
+
   /*
    * Verify file requested
    */
@@ -122,21 +156,23 @@ void handle_client_message(int fd)
     printf("[ERROR] You don't have permission to access this file.\n");
     bytes_to_send[fd] = -1;
     send(fd, "HTTP/1.0 403 Forbidden\r\n\r\n", 26, 0); /* 403 : Forbidden*/
+    send(fd, "[ERROR] You don't have permission to access this file.", 55, 0);
     return;
   }
 
   int f;
-  f = open(file_name, O_RDONLY, 0644);
+  f = open(clients_path, O_RDONLY, 0644);
   if (f < 0)
   {
     perror("File doesn't exists or can't be read");
     bytes_to_send[fd] = -1;
     send(fd, "HTTP/1.0 404 Not Found\r\n\r\n", 26, 0); /* 404 : Not found */
+    send(fd, "[ERROR] File doesn't exists or can't be read", 44, 0);
     return;
   }
-
+ 
   /*
-   * Set number of bytes to send on socket
+   * Set number of bytes to send to socket
    */
   lseek(f, 0L, SEEK_END);
   bytes_to_send[fd] = lseek(f, 0l, SEEK_CUR);
@@ -179,6 +215,8 @@ int main(int argc, char *argv[])
   }
   port = atoi(argv[1]);
   connect_to_server();
+     
+  check_if_is_path(argv[2]);
 
   /*
    * Structs and variables
@@ -292,7 +330,9 @@ int main(int argc, char *argv[])
         /*
          *  Verify the size of data the client requeted
          */
-        if ((bytes_sent[i] == 0) && (bytes_to_send[i] == 0))
+        if ((bytes_sent[i] == 0)
+            && (bytes_to_send[i] == 0)
+            && (files_to_send[i] == 0))
           handle_client_message(i);
 
         /*
