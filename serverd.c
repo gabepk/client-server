@@ -1,8 +1,8 @@
 /*!
  * \file serverd.c
- * \brief Servidor de Paginas Web Single Threaded
+ * \brief Servidor de Paginas  Web Single Threaded
  *
- * "$Id: $" 
+ * "$Id: $"
  */
 #include <stdio.h>
 #include <stdlib.h>
@@ -18,22 +18,29 @@
 #define BACKLOG 10
 #define MAX_NAME_SIZE 64
 #define HEADER_BUFFER_SIZE 1024
-#define BUFFER_SIZE 4
+#define BUFFER_SIZE 512
 
 int port;
 int sockfd;
 char buffer[BUFFER_SIZE];
 
-/* 
- * TODO Create struct 
+int bytes_sent[BACKLOG]; /* Number of bytes sent for each client */
+int bytes_to_send[BACKLOG]; /* Number of total bytes to send for each client */
+int files_to_send[BACKLOG]; /* File descriptor asked by each client */
+char headers[BACKLOG][HEADER_BUFFER_SIZE]; /* Request from each client */
+
+/**                                                                             
+ * @brief Configure server to listen to cliente on one socket
+ *
+ * Server conects to a socket on protocol TCP/IP, allowing other sockets to 
+ * bind to id on servers address. Then it starts listening to a number of
+ * BACKLOG clients on the socket
+ * 
+ * @return Return if all the conetions have worked,
+ * end program if one of the didn't
  */
-int bytes_sent[BACKLOG];
-int bytes_to_send[BACKLOG];
-int files_to_send[BACKLOG];
-char headers[BACKLOG][HEADER_BUFFER_SIZE];
-
-
-void connect_to_server() {
+void connect_to_server()
+{
   /*
    * Get socket desciptor
    */
@@ -42,10 +49,8 @@ void connect_to_server() {
     perror("\nError trying to get socket");
     exit(1);
   }
-  printf("> Socket description: %d\n", sockfd); 
- 
   /*
-   * Setting options for the socket 
+   * Setting options for the socket
    * SOL_SOCKET : Socket levl
    * SO_REUSABLE : Allow other sockets to bind to this port when not being used
    */
@@ -55,7 +60,7 @@ void connect_to_server() {
     perror("Error on configuring socket");
     exit(1);
   }
-  
+
   /*
    * Configuring servers address
    */
@@ -74,8 +79,6 @@ void connect_to_server() {
     perror("\nError on binding");
     exit(1);
   }
-  printf("> Address %d (localhost) bound to port %d\n", INADDR_ANY, port);
-
   /*
    * Put socket descriptor to listen for incoming connections
    * BACKLOG : Max number of pending connections
@@ -85,8 +88,6 @@ void connect_to_server() {
      perror("\nError on listening");
      exit(1);
   }
-  printf("> Server listening\n");
-
   return;
 }
 
@@ -103,25 +104,16 @@ void connect_to_server() {
  * @param fd : Clients socket
  */
 void handle_client_message(int fd)
-{  
-  // TODO Set Content-Type: "type"
-
+{
   char file_name[MAX_NAME_SIZE];
   char header[HEADER_BUFFER_SIZE];
   
   strncpy(header, headers[fd], strlen(headers[fd]));
   strtok(headers[fd], " ");
 
-  /*
-   * TODO Change from strcpy to strncpy 
-   */
-  //int pos_init = strtok(NULL, " /");
-  //int pos_end = strtok(NULL, " ");
   strcpy(file_name, strtok(NULL, " /"));
   
   file_name[strlen(file_name)] = '\0';
-  printf("[FILE NAME] : %s\n\n", file_name);
-
   /*
    * Verify file requested
    */
@@ -133,7 +125,7 @@ void handle_client_message(int fd)
     return;
   }
 
-  int f;  
+  int f;
   f = open(file_name, O_RDONLY, 0644);
   if (f < 0)
   {
@@ -168,8 +160,11 @@ void send_client_request(int fd)
   lseek(files_to_send[fd], bytes_sent[fd], SEEK_SET);
   int bytes_read = read(files_to_send[fd], msg, BUFFER_SIZE);
 
-  // TODO Calcular EOF - SEEK_CUR
-  
+  /*
+   * Sleep to simulate slow server
+   */
+  sleep(0.2);  
+
   send(fd, msg, bytes_read, 0);
   bytes_sent[fd] += bytes_read;
   return;
@@ -182,10 +177,6 @@ int main(int argc, char *argv[])
     printf("\nEnter <PORT> <Directory>\n\n");
     exit(1);
   }
- /*
-  *  Reportar se arquivo nao existe OU usuario nao tem permissao pra acessa-lo
-  *  Verificar se arquivo de entrada esta em um diretorio ''../''.
-  */
   port = atoi(argv[1]);
   connect_to_server();
 
@@ -193,7 +184,7 @@ int main(int argc, char *argv[])
    * Structs and variables
    */
   int i;
-  int bytes_recv;
+  int bytes_recv; /* Bytes received */
   int max_fd; /* Biggest file descriptor */
   int new_fd; /* New connections on descriptor new_fd */
   struct sockaddr_in clients_addr; /* Client's address */
@@ -204,7 +195,7 @@ int main(int argc, char *argv[])
   fd_set writefds; /* Temporary file descriptors set for write in sockets */
 
   FD_ZERO(&master);
-  FD_ZERO(&readfds);  
+  FD_ZERO(&readfds);
   FD_ZERO(&writefds);
   FD_SET(sockfd, &master);
 
@@ -213,7 +204,8 @@ int main(int argc, char *argv[])
   /*
    * Initiate headers and bytes sent arrays
    */
-  for (i = 0; i < BACKLOG; i++) {
+  for (i = 0; i < BACKLOG; i++)
+  {
     memset(headers[i], 0, HEADER_BUFFER_SIZE);
     bytes_sent[i] = 0;
     bytes_to_send[i] = 0;
@@ -221,7 +213,7 @@ int main(int argc, char *argv[])
   }
 
   /*
-   * MAIN LOOP
+   * Main loop
    */
   while (1)
   { 
@@ -231,12 +223,20 @@ int main(int argc, char *argv[])
       perror("\nError on select");
       exit(1);
     }
-  
+
+    /*
+     * Verify each socket, including the servers 
+     */ 
     for (i = 0; i <= max_fd; i++)
     {
+     /*
+      * Handle incoming data
+      */ 
       if (FD_ISSET(i, &readfds))
       {
-        /* Handle new connection */
+        /*
+         * Handle new connection
+         */
         if (i == sockfd)
         {
           sin_size = sizeof(clients_addr);
@@ -245,27 +245,29 @@ int main(int argc, char *argv[])
               &sin_size)) < 0)
             perror("\nError on accepting new connection");
  
-          /* Add new client */
+          /*
+           * Add new client
+           */ 
           else
           {
-            FD_SET(new_fd, &master); /* Add socket on set of sockets  */
-            /* Replace max file descriptor when new_fd greater than max_fd */
+            FD_SET(new_fd, &master);
+            /*
+             * Replace max file descriptor when new_fd greater than max_fd
+             */
             if (new_fd > max_fd)
               max_fd = new_fd; 
-
-            printf("> Server: got connection on socket %d from %s.\n", new_fd, 
-                   inet_ntoa(clients_addr.sin_addr));
           }
         }
 
-        /* Handle data from clients */
+        /*
+         * Handle incoming data from clients
+         */
         else
         {
           bytes_recv = recv(i, buffer, BUFFER_SIZE, 0);
 
-          if (bytes_recv == 0) /* Client closed or connection has error */
+          if (bytes_recv == 0)
           {
-            printf("> Client of socket %d finished request.\n", i);
             close(i);
             FD_SET(i, &writefds);
             FD_CLR(i, &master);
@@ -282,20 +284,28 @@ int main(int argc, char *argv[])
           }
         }
       }
+      /*
+       * Sending requested data 
+       */ 
       else if (FD_ISSET(i, &writefds))
       {
-        /* Time to send what client requested */
-
-        /* Verify the size of data the client requeted */
+        /*
+         *  Verify the size of data the client requeted
+         */
         if ((bytes_sent[i] == 0) && (bytes_to_send[i] == 0))
           handle_client_message(i);
 
-        /* Send chunks of data of size BUFFER_SIZE */
+        /*
+         * Send chunks of data of size BUFFER_SIZE
+         */
         else if (bytes_sent[i] < bytes_to_send[i])
           send_client_request(i);
 
-        /* Server sent all data. Remove client from set of sockets */
-        else {
+        /*
+         * Server sent all data. Remove client from set of sockets
+         */
+        else
+        {
           memset(headers[i], 0, HEADER_BUFFER_SIZE);
           bytes_sent[i] = 0;
           bytes_to_send[i] = 0;
@@ -305,7 +315,7 @@ int main(int argc, char *argv[])
           FD_CLR(i, &writefds);
         }
       }
-    } /* for */
-  } /* while */
+    }
+  }
   return 0;
 }
