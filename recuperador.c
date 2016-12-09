@@ -144,16 +144,7 @@ void connect_to_server()
   int connected = 0;  
   for (s = server_info; s != NULL; s = s->ai_next)
   {
-     
-     /* Change from localhost to local IP (only to test on my machine) */
-     if (strncmp(inet_ntoa(((struct sockaddr_in*)s->ai_addr)->sin_addr), 
-         "127.0.0.1", 9) == 0)
-       inet_pton(AF_INET, "10.4.32.1", &(((struct sockaddr_in*)s->ai_addr)->sin_addr));
-
-
-
-
-     ((struct sockaddr_in *)s)->sin_port = htons(PORT);
+    ((struct sockaddr_in *)s)->sin_port = htons(PORT);
      printf("hostname: %s\n", 
             inet_ntoa(((struct sockaddr_in*)s->ai_addr)->sin_addr));
 
@@ -265,7 +256,7 @@ void recv_message()
         write(fp, content_in_buffer, j);
       }
       still_header = 0;
-    }
+    } 
  
   } while (still_header == 1);
 
@@ -282,6 +273,7 @@ void recv_message()
       exit(1);
     }
     write(fp, buffer, bytes_recv);
+    printf("%s", buffer);
 
   } while (bytes_recv > 0);
   
@@ -318,7 +310,6 @@ int main(int argc, char *argv[])
  
   build_host_and_path(argv[1]);
   snprintf(msg, SIZE_OF_GET + strlen(path), "GET %s HTTP/1.0\r\n\r\n", path);
-
   connect_to_server();
   send_message(); 
   recv_message();

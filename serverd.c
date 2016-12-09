@@ -52,6 +52,8 @@ void check_if_is_path(char input_path[MAX_NAME_SIZE]) {
     exit(1);
   }
 
+  // Remove the "http://localhost/" if it is on the input path
+
   strcpy(path, input_path);
   path[strlen(path) - 1] = '\0';
   return;
@@ -108,7 +110,7 @@ void connect_to_server()
     perror("\nError on binding");
     exit(1);
   }
-  /*
+   /*
    * Put socket descriptor to listen for incoming connections
    * BACKLOG : Max number of pending connections
    */
@@ -159,7 +161,7 @@ void handle_client_message(int fd)
     send(fd, "[ERROR] You don't have permission to access this file.", 55, 0);
     return;
   }
-
+  printf("\nREQUESTED PATH: \n\n%s\n", clients_path);
   int f;
   f = open(clients_path, O_RDONLY, 0644);
   if (f < 0)
