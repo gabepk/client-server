@@ -1,8 +1,7 @@
 /*!
- * \file  recuperador.c
+ * \file  client.c
  * \brief Recuperador de Paginas Web
  *
- * "$Id: $"
  */
 #include <stdio.h>
 #include <stdlib.h>

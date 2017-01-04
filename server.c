@@ -1,8 +1,7 @@
 /*!
- * \file serverd.c
+ * \file server.c
  * \brief Servidor de Paginas  Web Single Threaded
  *
- * "$Id: $"
  */
 #include <stdio.h>
 #include <stdlib.h>
