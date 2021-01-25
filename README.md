@@ -1,19 +1,20 @@
+English/[Português](https://github.com/gabepk/client-server/blob/master/README.pt.md)
+
 # Client-Server
 
-Simple client-server algorithm in C.
-
-Client send request to a web page and write answer to a local file. The flag _-s_ is used when the user wants to overwrite the file.
-
-Server listen to a port for incoming connections. The user can select the directory of server's origin.
+Simple web client and web server algorithm in C.
 
 ## Client
 
-$ gcc -Wall client.c -o client
+Client send request to a **url** and write the payload of the response to a local file called **filename**. <br />
+The flag **-s** is used if the user wants to overwrite this file.
 
-$ ./client _URL_ _FileName_ [_-s_]
+> $ gcc -Wall client.c -o client <br />
+> $ ./client [url] [filename] [-s]
 
 ## Server
 
-$ gcc -Wall server.c -o server
+Server listen to a **port** for incoming connections on the chosen **directory**).
 
-$ ./server _PORT_ _Directory_
+> $ gcc -Wall server.c -o server  <br />
+> $ ./server [port] [directory]
